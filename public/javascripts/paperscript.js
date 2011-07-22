@@ -20,4 +20,12 @@ this.createProgramme = function(id) {
   view.draw();
 };
 
+//Create a new node
+this.deleteProgramme = function(id) {
+  var programme = programmes[id];
+  programme.remove();
+
+  view.draw();
+};
+
 paper.install(window.paperscript);

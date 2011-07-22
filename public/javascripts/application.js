@@ -19,7 +19,7 @@ $(document).ready(function() {
       //Bind the remove event to the destroy and delete the html element
       this.bind("remove", function() {
         $('#'+this.cid).remove();
-        deleteNode(this.cid);
+        deleteProgramme(this.cid);
         this.destroy();
       });
     }
