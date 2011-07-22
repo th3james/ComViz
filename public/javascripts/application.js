@@ -2,7 +2,7 @@ var paperscript = {};
 
 function createNode() {
   // do something
-  paperscript.createNode();
+  paperscript.createProgramme();
 }
 
 $(document).ready(function() {

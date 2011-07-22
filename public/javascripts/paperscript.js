@@ -1,14 +1,10 @@
-var p = new Path();
-p.add(new Point(0, 0));
-p.add(new Point(50, 50));
-p.strokeColor = "#999";
+var projects = [];
 
 //Create a new node
-this.createNode = function() {
-  console.log("Making red...");
-  p.strokeColor = "#c10";
+this.createProgramme = function() {
+  var path = new Path.Circle(new Point(80, 50), 35);
+  path.fillColor = 'red';
   view.draw();
 };
 
 paper.install(window.paperscript);
-
