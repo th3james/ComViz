@@ -45,7 +45,7 @@ html
           programmeNamePrompt: function () {
             var programme_name = prompt("Programme name?");
             var programme_model = new Programme({ name: programme_name });
-            //Add a new friend model to our friend collection
+            //Add a new programme model to our programmes collection
             this.programmes.add( programme_model );
           },
           deleteProgramme: function (e) {
@@ -53,7 +53,7 @@ html
             var f = this.programmes.getByCid(li.attr('id'));
             this.programmes.remove(f);
           },
-          addFriendLi: function (model) {
+          addProgrammeLi: function (model) {
             //The parameter passed is a reference to the model that was added
             $("#friends-list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='unHaz'>delete</a></li>");
             //Use .get to receive attributes of the model
