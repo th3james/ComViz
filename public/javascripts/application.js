@@ -1,8 +1,13 @@
 var paperscript = {};
 
-function createNode() {
+function createProgramme(id) {
   // do something
-  paperscript.createProgramme();
+  paperscript.createProgramme(id);
+}
+
+function deleteProgramme(id) {
+  // do something
+  paperscript.deleteProgramme(id);
 }
 
 $(document).ready(function() {
@@ -14,6 +19,7 @@ $(document).ready(function() {
       //Bind the remove event to the destroy and delete the html element
       this.bind("remove", function() {
         $('#'+this.cid).remove();
+        deleteNode(this.cid);
         this.destroy();
       });
     }
@@ -53,7 +59,7 @@ $(document).ready(function() {
       //The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='delete_programme'>delete</a></li>");
       //Use .get to receive attributes of the model
-      createNode();
+      createProgramme(model.cid);
     }
   });
 

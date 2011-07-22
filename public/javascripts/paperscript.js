@@ -1,19 +1,21 @@
 //Programmes
-var programmes = [];
+var programmes = {
+  lastPosition: new Point(0, 50),
+  add: function (id, p){
+    this.lastPosition = p.position;
+    this[id] = p;
+  }
+};
 
 //Create a new node
-this.createProgramme = function() {
-  var newProgramme, position, previous;
+this.createProgramme = function(id) {
+  var newProgramme, position;
 
-  position = new Point(50, 50);
   // If previous elements exist, move this out of the way
-  if (programmes.length > 0) {
-    previous = programmes[programmes.length - 1];
-    position = new Point(previous.position.x + 60, previous.position.y );
-  }
+  position = new Point(programmes.lastPosition.x + 60, programmes.lastPosition.y );
   newProgramme = new Path.Circle(position, 20);
 
-  programmes.push(newProgramme);
+  programmes.add(id, newProgramme);
   newProgramme.fillColor = '#4784BC';
   view.draw();
 };
