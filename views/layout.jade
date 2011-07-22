@@ -8,7 +8,7 @@ html
     script(type='text/javascript', src='http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js')
     script(type='text/javascript', src='/javascripts/backbone.js')
     script(type='text/javascript')
-      (function ($) {
+      $(document).ready(function() {
 
         //Create a model to hold friend atribute
         Programme = Backbone.Model.extend({
@@ -55,12 +55,12 @@ html
           },
           addProgrammeLi: function (model) {
             //The parameter passed is a reference to the model that was added
-            $("#friends-list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='unHaz'>delete</a></li>");
+            $("#programme_list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='unHaz'>delete</a></li>");
             //Use .get to receive attributes of the model
           }
         });
 
         var appview = new AppView;
 
-      })(jQuery);
+      });
   body!= body
