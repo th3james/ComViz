@@ -3,5 +3,63 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='javascript', href='/javascripts/paper.js')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js')
+    script(type='text/javascript', src='/javascripts/paper.js')
+    script(type='text/javascript', src='/javascripts/backbone.js')
+    script(type='text/javascript')
+      (function ($) {
+
+        //Create a model to hold friend atribute
+        Programme = Backbone.Model.extend({
+          name: null,
+          initialize: function(options) {
+            //Bind the remove event to the destroy and delete the html element
+            this.bind("remove", function() {
+              $('#'+this.cid).remove();
+              this.destroy();
+            });
+          }
+        });
+        
+
+        //This is our Friends collection and holds our Friend models
+        Programmes = Backbone.Collection.extend({
+          initialize: function (models, options) {
+            this.bind("addProgramme", options.view.addProgramme);
+            //Listen for new additions to the collection and call a view function if so
+          }
+        });
+
+        AppView = Backbone.View.extend({
+          el: $("body"),
+          initialize: function () {
+            //Create a programme collection when the view is initialized.
+            //Pass it a reference to this view to create a connection between the two
+            this.programmes = new Programmes( null, { view: this });
+          },
+          events: {
+            "click #add_programme":  "programmeNamePrompt",
+            "click a.delete_programme":  "deleteProgramme"
+          },
+          programmeNamePrompt: function () {
+            var programme_name = prompt("Programme name?");
+            var programme_model = new Programme({ name: programme_name });
+            //Add a new friend model to our friend collection
+            this.programmes.add( programme_model );
+          },
+          deleteProgramme: function (e) {
+            var li = $(e.currentTarget).parent('li');
+            var f = this.programmes.getByCid(li.attr('id'));
+            this.programmes.remove(f);
+          },
+          addFriendLi: function (model) {
+            //The parameter passed is a reference to the model that was added
+            $("#friends-list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='unHaz'>delete</a></li>");
+            //Use .get to receive attributes of the model
+          }
+        });
+
+        var appview = new AppView;
+
+      })(jQuery);
   body!= body
