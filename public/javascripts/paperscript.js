@@ -1,5 +1,6 @@
 (function() {
-  var Container, programmes;
+  var Container, global, programmes;
+  global = this;
   Container = (function() {
     function Container(lastPosition) {
       this.lastPosition = lastPosition;
@@ -26,6 +27,25 @@
     programme.remove();
     return view.draw();
   };
-  this.objectOverlapping = function(p) {};
+  this.objectsOverlapping = function(p) {
+    var id, overlapping, programme, _len, _ref;
+    alert("" + programmes.length);
+    overlapping = [];
+    _ref = programmes.items;
+    for (programme = 0, _len = _ref.length; programme < _len; programme++) {
+      id = _ref[programme];
+      alert("id " + id + ", programme " + programme);
+      if (programme.contains(p)) {
+        overlapping.push(programme);
+      }
+    }
+    return overlapping;
+  };
+  
+  onMouseDown = function(event) {
+    alert("Mouse clicked at " + event.point);
+    return objectsOverlapping(event.point);
+  }
+;
   paper.install(window.paperscript);
 }).call(this);

@@ -1,3 +1,5 @@
+global=@
+
 #Generic objects container
 class Container
   constructor: (@lastPosition) ->
@@ -26,7 +28,20 @@ programmes = new Container(new Point(0, 50))
   view.draw()
 
 # Returns overlapping objects
-this.objectOverlapping = (p) -> 
+@objectsOverlapping = (p) -> 
+  alert("#{programmes.length}")
+  overlapping = []
+  for id, programme in programmes.items
+    alert("id #{id}, programme #{programme}")
+    overlapping.push programme if programme.contains(p)
+  return overlapping
+
+`
+  onMouseDown = function(event) {
+    alert("Mouse clicked at " + event.point);
+    return objectsOverlapping(event.point);
+  }
+`
 
 paper.install(window.paperscript)
 
