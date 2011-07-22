@@ -1,0 +1,2 @@
+coffee -o public/javascripts/ --watch --compile coffeescripts/*.coffee
+
