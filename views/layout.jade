@@ -26,7 +26,7 @@ html
         //This is our Friends collection and holds our Friend models
         Programmes = Backbone.Collection.extend({
           initialize: function (models, options) {
-            this.bind("addProgramme", options.view.addProgramme);
+            this.bind("add", options.view.addProgrammeLi);
             //Listen for new additions to the collection and call a view function if so
           }
         });
@@ -55,7 +55,7 @@ html
           },
           addProgrammeLi: function (model) {
             //The parameter passed is a reference to the model that was added
-            $("#programme_list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='unHaz'>delete</a></li>");
+            $("#programme_list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='delete_programme'>delete</a></li>");
             //Use .get to receive attributes of the model
           }
         });
