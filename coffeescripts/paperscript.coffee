@@ -1,5 +1,3 @@
-global=@
-
 #Generic objects container
 class Container
   constructor: (@lastPosition) ->
@@ -29,9 +27,9 @@ programmes = new Container(new Point(0, 50))
 
 # Returns overlapping objects
 @objectsOverlapping = (p) -> 
-  alert("#{programmes.length}")
+  alert("#{programmes.items}")
   overlapping = []
-  for id, programme in programmes.items
+  for id in programmes.items
     alert("id #{id}, programme #{programme}")
     overlapping.push programme if programme.contains(p)
   return overlapping

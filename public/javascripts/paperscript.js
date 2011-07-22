@@ -1,6 +1,5 @@
 (function() {
-  var Container, global, programmes;
-  global = this;
+  var Container, programmes;
   Container = (function() {
     function Container(lastPosition) {
       this.lastPosition = lastPosition;
@@ -28,12 +27,12 @@
     return view.draw();
   };
   this.objectsOverlapping = function(p) {
-    var id, overlapping, programme, _len, _ref;
-    alert("" + programmes.length);
+    var id, overlapping, _i, _len, _ref;
+    alert("" + programmes.items);
     overlapping = [];
     _ref = programmes.items;
-    for (programme = 0, _len = _ref.length; programme < _len; programme++) {
-      id = _ref[programme];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      id = _ref[_i];
       alert("id " + id + ", programme " + programme);
       if (programme.contains(p)) {
         overlapping.push(programme);
