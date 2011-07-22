@@ -2,7 +2,7 @@ var paperscript = {};
 
 function createNode() {
   // do something
-  paperscript.drawNode();
+  paperscript.createNode();
 }
 
 $(document).ready(function() {
@@ -53,7 +53,7 @@ $(document).ready(function() {
       //The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='"+model.cid+"'>" + model.get('name') + " <a href='#' class='delete_programme'>delete</a></li>");
       //Use .get to receive attributes of the model
-      drawNode();
+      createNode();
     }
   });
 
