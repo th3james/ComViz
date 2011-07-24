@@ -13,7 +13,7 @@ $(document).ready(() ->
   #Programmes collection
   Programmes = Backbone.Collection.extend({
     initialize: (models, options) -> 
-      this.bind("add", options.view.addProgrammeLi)
+      this.bind("add", options.view.addProgramme)
   })
 
   #Application view
@@ -38,10 +38,11 @@ $(document).ready(() ->
       f = @programmes.getByCid(li.attr('id'))
       this.programmes.remove(f)
     ,
-    addProgrammeLi: (model) ->
+    addProgramme: (model) ->
       #The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='#{model.cid}'>#{model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
-      #Use .get to receive attributes of the model
+      #Add the node to the graph
+      window.addNode({name:model.get('name')})
   })
 
   appview = new AppView

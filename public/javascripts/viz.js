@@ -1,6 +1,5 @@
 (function() {
-  var redraw, root;
-  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+  var redraw;
   this.initGraph = function() {
     this.graph = {};
     this.graph.w = 960;

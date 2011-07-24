@@ -12,7 +12,7 @@
     });
     Programmes = Backbone.Collection.extend({
       initialize: function(models, options) {
-        return this.bind("add", options.view.addProgrammeLi);
+        return this.bind("add", options.view.addProgramme);
       }
     });
     AppView = Backbone.View.extend({
@@ -40,8 +40,11 @@
         f = this.programmes.getByCid(li.attr('id'));
         return this.programmes.remove(f);
       },
-      addProgrammeLi: function(model) {
-        return $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
+      addProgramme: function(model) {
+        $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
+        return window.addNode({
+          name: model.get('name')
+        });
       }
     });
     appview = new AppView;

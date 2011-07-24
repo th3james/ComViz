@@ -1,7 +1,5 @@
 #Contains all the d3 drawing methods
 
-root = exports ? @
-
 #Initialise the graph with some data
 @initGraph = () ->
   @graph = {}
