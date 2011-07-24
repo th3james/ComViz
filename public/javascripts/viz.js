@@ -34,6 +34,7 @@
     }).attr("r", 5).style("fill", function(d) {
       return graph.fill(d.group);
     }).call(force.drag);
+    this.vis.selectAll("circle.node").data(this.data.nodes).exit().remove();
     node.append("svg:title").text(function(d) {
       return d.name;
     });

@@ -40,6 +40,7 @@ redraw = () ->
     .attr("x2", (d) ->  return d.target.x)
     .attr("y2", (d) ->  return d.target.y)
 
+  #Draw nodes
   node = @vis.selectAll("circle.node")
     .data(@data.nodes)
     .enter().append("svg:circle")
@@ -49,6 +50,9 @@ redraw = () ->
     .attr("r", 5)
     .style("fill", (d) -> return graph.fill(d.group))
     .call(force.drag)
+
+  #Remove nodes
+  @vis.selectAll("circle.node").data(@data.nodes).exit().remove()
 
   node.append("svg:title")
     .text((d) ->  return d.name)
