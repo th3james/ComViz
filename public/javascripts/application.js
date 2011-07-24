@@ -6,6 +6,7 @@
       initialize: function(options) {
         return this.bind("remove", function() {
           $('#' + this.cid).remove();
+          window.deleteNode(this.cid);
           return this.destroy();
         });
       }
@@ -43,7 +44,8 @@
       addProgramme: function(model) {
         $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
         return window.addNode({
-          name: model.get('name')
+          name: model.get('name'),
+          id: model.cid
         });
       }
     });

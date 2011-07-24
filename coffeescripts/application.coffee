@@ -6,6 +6,7 @@ $(document).ready(() ->
       #Bind the remove event to the destroy and delete the html element
       @bind("remove", () ->
         $('#'+this.cid).remove()
+        window.deleteNode(this.cid)
         @destroy()
       )
   })
@@ -42,7 +43,7 @@ $(document).ready(() ->
       #The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='#{model.cid}'>#{model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
       #Add the node to the graph
-      window.addNode({name:model.get('name')})
+      window.addNode({name:model.get('name'), id: model.cid})
   })
 
   appview = new AppView

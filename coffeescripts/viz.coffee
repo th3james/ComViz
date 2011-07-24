@@ -73,5 +73,15 @@ redraw = () ->
 #
 # @param [Object] node a node
 @addNode = (node) ->
-  data.nodes.push(node)
+  @data.nodes.push(node)
+  redraw()
+
+# Remove a node from the data and redraw
+#
+# @param [String] id id of the node to delete
+@deleteNode = (id) ->
+  full_data = @data.nodes
+  @data.nodes = []
+  for node in full_data
+    @data.nodes.push(node) unless node.id == id
   redraw()

@@ -56,7 +56,19 @@
     });
   };
   this.addNode = function(node) {
-    data.nodes.push(node);
+    this.data.nodes.push(node);
+    return redraw();
+  };
+  this.deleteNode = function(id) {
+    var full_data, node, _i, _len;
+    full_data = this.data.nodes;
+    this.data.nodes = [];
+    for (_i = 0, _len = full_data.length; _i < _len; _i++) {
+      node = full_data[_i];
+      if (node.id !== id) {
+        this.data.nodes.push(node);
+      }
+    }
     return redraw();
   };
 }).call(this);
