@@ -14,13 +14,11 @@ root = exports ? @
       .attr("width", @graph.w)
       .attr("height", @graph.h)
   
-  #initialise the @data object with misrables.json and draw the graph
-  d3.json("javascripts/miserables.json", (json) ->
-    @data = json
-
-    #Draw the graph with the data in place
-    redraw()
-  )
+  @data = {
+    nodes: [],
+    links: []
+  }
+  redraw()
 
 #Redraw the graph
 redraw = () ->
@@ -73,9 +71,9 @@ redraw = () ->
   )
   
 
-@addNode = (name) ->
-  data.push(name)
-  node = @vis.selectAll("circle.node")
-    .data(json.nodes)
-    .enter().append("svg:circle")
- 
+# Add a new node to the graph and redraw
+#
+# @param [Object] node a node
+@addNode = (node) ->
+  data.nodes.push(node)
+  redraw()

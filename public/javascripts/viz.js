@@ -7,10 +7,11 @@
     this.graph.h = 500;
     this.graph.fill = d3.scale.category20();
     this.vis = d3.select("#chart").append("svg:svg").attr("width", this.graph.w).attr("height", this.graph.h);
-    return d3.json("javascripts/miserables.json", function(json) {
-      this.data = json;
-      return redraw();
-    });
+    this.data = {
+      nodes: [],
+      links: []
+    };
+    return redraw();
   };
   redraw = function() {
     var force, graph, link, node;
@@ -55,9 +56,8 @@
       });
     });
   };
-  this.addNode = function(name) {
-    var node;
-    data.push(name);
-    return node = this.vis.selectAll("circle.node").data(json.nodes).enter().append("svg:circle");
+  this.addNode = function(node) {
+    data.nodes.push(node);
+    return redraw();
   };
 }).call(this);
