@@ -27,16 +27,13 @@
     }).attr("y2", function(d) {
       return d.target.y;
     });
-    node = this.vis.selectAll("circle.node").data(this.data.nodes).enter().append("svg:circle").attr("class", "node").attr("cx", function(d) {
-      return d.x;
-    }).attr("cy", function(d) {
-      return d.y;
-    }).attr("r", 5).style("fill", function(d) {
-      return graph.fill(d.group);
-    }).call(force.drag);
-    this.vis.selectAll("text").data(this.data.nodes).enter().append("svg:text").attr("font-size", 10).attr("x", 10).attr("y", 10).attr("xlink:href", 'hat').text(function(d) {
+    node = this.vis.selectAll("g.node").data(this.data.nodes).enter().append("svg:g").attr("class", "node").attr("transform", function(d) {
+      return "translate(" + d.x + ", " + d.y + ")";
+    });
+    node.append("svg:circle").attr("r", 7).style("fill", "#234B6F").call(force.drag);
+    node.append("svg:text").style("pointer-events", "none").text(function(d) {
       return d.name;
-    }).style("width", 10 + "px");
+    });
     this.vis.selectAll("circle.node").data(this.data.nodes).exit().remove();
     this.vis.style("opacity", 1e-6).transition().duration(1000).style("opacity", 1);
     return force.on("tick", function() {

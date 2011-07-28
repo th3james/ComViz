@@ -40,27 +40,24 @@ redraw = () ->
     .attr("x2", (d) ->  return d.target.x)
     .attr("y2", (d) ->  return d.target.y)
 
-  #Draw nodes
-  node = @vis.selectAll("circle.node")
+  #NODE DRAWING
+  #first we create svg:g elements as the container
+  node = @vis.selectAll("g.node")
     .data(@data.nodes)
-    .enter().append("svg:circle")
+    .enter().append("svg:g")
     .attr("class", "node")
-    .attr("cx", (d) ->  return d.x)
-    .attr("cy", (d) ->  return d.y)
-    .attr("r", 5)
-    .style("fill", (d) -> return graph.fill(d.group))
-    .call(force.drag)
-
-  @vis.selectAll("text")
-    .data(@data.nodes)
-    .enter().append("svg:text")
-    .attr("font-size", 10)
-    .attr("x", 10)
-    .attr("y", 10)
-    .attr("xlink:href", 'hat')
-    .text((d) -> d.name)
+    .attr("transform", (d) -> "translate(#{d.x}, #{d.y})")
     
-    .style("width", 10 + "px" )
+  #Then we fill the svg:g elements with:
+  #The circle
+  node.append("svg:circle")
+      .attr("r", 7)
+      .style("fill", "#234B6F")
+      .call(force.drag)
+  #The name
+  node.append("svg:text")
+      .style("pointer-events", "none")
+      .text((d) -> d.name)
     
   #Remove nodes
   @vis.selectAll("circle.node").data(@data.nodes).exit().remove()
