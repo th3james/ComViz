@@ -51,11 +51,19 @@ redraw = () ->
     .style("fill", (d) -> return graph.fill(d.group))
     .call(force.drag)
 
+  @vis.selectAll("text")
+    .data(@data.nodes)
+    .enter().append("svg:text")
+    .attr("font-size", 10)
+    .attr("x", 10)
+    .attr("y", 10)
+    .attr("xlink:href", 'hat')
+    .text((d) -> d.name)
+    
+    .style("width", 10 + "px" )
+    
   #Remove nodes
   @vis.selectAll("circle.node").data(@data.nodes).exit().remove()
-
-  node.append("svg:title")
-    .text((d) ->  return d.name)
 
   @vis.style("opacity", 1e-6)
     .transition()

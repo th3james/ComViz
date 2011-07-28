@@ -34,10 +34,10 @@
     }).attr("r", 5).style("fill", function(d) {
       return graph.fill(d.group);
     }).call(force.drag);
-    this.vis.selectAll("circle.node").data(this.data.nodes).exit().remove();
-    node.append("svg:title").text(function(d) {
+    this.vis.selectAll("text").data(this.data.nodes).enter().append("svg:text").attr("font-size", 10).attr("x", 10).attr("y", 10).attr("xlink:href", 'hat').text(function(d) {
       return d.name;
-    });
+    }).style("width", 10 + "px");
+    this.vis.selectAll("circle.node").data(this.data.nodes).exit().remove();
     this.vis.style("opacity", 1e-6).transition().duration(1000).style("opacity", 1);
     return force.on("tick", function() {
       link.attr("x1", function(d) {
