@@ -27,14 +27,12 @@
     }).attr("y2", function(d) {
       return d.target.y;
     });
-    node = this.vis.selectAll("g.node").data(this.data.nodes).enter().append("svg:g").attr("class", "node").attr("transform", function(d) {
-      return "translate(" + d.x + ", " + d.y + ")";
-    });
-    node.append("svg:circle").attr("r", 7).style("fill", "#234B6F").call(force.drag);
-    node.append("svg:text").style("pointer-events", "none").text(function(d) {
+    node = this.vis.selectAll("g.node").data(this.data.nodes).enter().append("svg:g").attr("class", "node").call(force.drag);
+    node.append("svg:image").attr("class", "circle").attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
+    node.append("svg:text").attr("class", "node_text").attr("dx", 12).attr("dy", ".35em").text(function(d) {
       return d.name;
     });
-    this.vis.selectAll("circle.node").data(this.data.nodes).exit().remove();
+    this.vis.selectAll("g.node").data(this.data.nodes).exit().remove();
     this.vis.style("opacity", 1e-6).transition().duration(1000).style("opacity", 1);
     return force.on("tick", function() {
       link.attr("x1", function(d) {
@@ -46,10 +44,8 @@
       }).attr("y2", function(d) {
         return d.target.y;
       });
-      return node.attr("cx", function(d) {
-        return d.x;
-      }).attr("cy", function(d) {
-        return d.y;
+      return node.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
       });
     });
   };

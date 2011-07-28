@@ -43,24 +43,29 @@ redraw = () ->
   #NODE DRAWING
   #first we create svg:g elements as the container
   node = @vis.selectAll("g.node")
-    .data(@data.nodes)
+      .data(@data.nodes)
     .enter().append("svg:g")
-    .attr("class", "node")
-    .attr("transform", (d) -> "translate(#{d.x}, #{d.y})")
+      .attr("class", "node")
+      .call(force.drag)
     
   #Then we fill the svg:g elements with:
   #The circle
-  node.append("svg:circle")
-      .attr("r", 7)
-      .style("fill", "#234B6F")
-      .call(force.drag)
-  #The name
+  node.append("svg:image")
+      .attr("class", "circle")
+      .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
+      .attr("x", "-8px")
+      .attr("y", "-8px")
+      .attr("width", "16px")
+      .attr("height", "16px");
+  #The Name
   node.append("svg:text")
-      .style("pointer-events", "none")
+      .attr("class", "node_text")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
       .text((d) -> d.name)
     
   #Remove nodes
-  @vis.selectAll("circle.node").data(@data.nodes).exit().remove()
+  @vis.selectAll("g.node").data(@data.nodes).exit().remove()
 
   @vis.style("opacity", 1e-6)
     .transition()
@@ -73,8 +78,7 @@ redraw = () ->
     .attr("x2", (d) ->  return d.target.x)
     .attr("y2", (d) ->  return d.target.y)
 
-    node.attr("cx", (d) ->  return d.x)
-    .attr("cy", (d) ->  return d.y)
+    node.attr("transform", (d) -> "translate(#{d.x},#{d.y})")
   )
   
 
