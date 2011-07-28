@@ -28,7 +28,7 @@
       return d.target.y;
     });
     node = this.vis.selectAll("g.node").data(this.data.nodes).enter().append("svg:g").attr("class", "node").call(force.drag);
-    node.append("svg:image").attr("class", "circle").attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
+    node.append("svg:circle").attr("r", 5).style("fill", "#234B6F").attr("class", "circle").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
     node.append("svg:text").attr("class", "node_text").attr("dx", 12).attr("dy", ".35em").text(function(d) {
       return d.name;
     });

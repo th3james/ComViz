@@ -50,13 +50,14 @@ redraw = () ->
     
   #Then we fill the svg:g elements with:
   #The circle
-  node.append("svg:image")
+  node.append("svg:circle")
+      .attr("r", 5)
+      .style("fill", "#234B6F")
       .attr("class", "circle")
-      .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
       .attr("x", "-8px")
       .attr("y", "-8px")
       .attr("width", "16px")
-      .attr("height", "16px");
+      .attr("height", "16px")
   #The Name
   node.append("svg:text")
       .attr("class", "node_text")
