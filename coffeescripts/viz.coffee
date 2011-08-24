@@ -31,23 +31,23 @@ redraw = () ->
     .start()
 
   link = @vis.selectAll("line.link")
-    .data(@data.links)
+      .data(@data.links)
     .enter().append("svg:line")
-    .attr("class", "link")
-    .style("stroke-width", (d) -> return Math.sqrt(d.value) )
-    .attr("x1", (d) ->  return d.source.x)
-    .attr("y1", (d) ->  return d.source.y)
-    .attr("x2", (d) ->  return d.target.x)
-    .attr("y2", (d) ->  return d.target.y)
+      .attr("class", "link")
+      .style("stroke-width", (d) -> return Math.sqrt(d.value) )
+      .attr("x1", (d) ->  return d.source.x)
+      .attr("y1", (d) ->  return d.source.y)
+      .attr("x2", (d) ->  return d.target.x)
+      .attr("y2", (d) ->  return d.target.y)
 
   #NODE DRAWING
   #first we create svg:g elements as the container
   node = @vis.selectAll("g.node")
-      .data(@data.nodes)
+      .data(@data.nodes, (d) -> d.id)
     .enter().append("svg:g")
       .attr("class", "node")
       .call(force.drag)
-    
+  
   #Then we fill the svg:g elements with:
   #The circle
   node.append("svg:circle")
@@ -64,9 +64,9 @@ redraw = () ->
       .attr("dx", 12)
       .attr("dy", ".35em")
       .text((d) -> d.name)
-    
+  
   #Remove nodes
-  @vis.selectAll("g.node").data(@data.nodes).exit().remove()
+  @vis.selectAll("g.node").data(@data.nodes, (d) -> d.id).exit().remove()
 
   @vis.style("opacity", 1e-6)
     .transition()
@@ -94,8 +94,11 @@ redraw = () ->
 #
 # @param [String] id id of the node to delete
 @deleteNode = (id) ->
-  full_data = @data.nodes
-  @data.nodes = []
-  for node in full_data
-    @data.nodes.push(node) unless node.id == id
+  node_index = ''
+  #for i in [0..@data.nodes.length-1]
+    #node_index = i if @data.nodes[i].id == id
+  #@data.nodes.splice(node_index, 1)
+  @data.nodes = @data.nodes.filter( (node) ->
+    node.id != id
+  )
   redraw()

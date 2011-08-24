@@ -27,12 +27,16 @@
     }).attr("y2", function(d) {
       return d.target.y;
     });
-    node = this.vis.selectAll("g.node").data(this.data.nodes).enter().append("svg:g").attr("class", "node").call(force.drag);
+    node = this.vis.selectAll("g.node").data(this.data.nodes, function(d) {
+      return d.id;
+    }).enter().append("svg:g").attr("class", "node").call(force.drag);
     node.append("svg:circle").attr("r", 5).style("fill", "#234B6F").attr("class", "circle").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
     node.append("svg:text").attr("class", "node_text").attr("dx", 12).attr("dy", ".35em").text(function(d) {
       return d.name;
     });
-    this.vis.selectAll("g.node").data(this.data.nodes).exit().remove();
+    this.vis.selectAll("g.node").data(this.data.nodes, function(d) {
+      return d.id;
+    }).exit().remove();
     this.vis.style("opacity", 1e-6).transition().duration(1000).style("opacity", 1);
     return force.on("tick", function() {
       link.attr("x1", function(d) {
@@ -54,15 +58,11 @@
     return redraw();
   };
   this.deleteNode = function(id) {
-    var full_data, node, _i, _len;
-    full_data = this.data.nodes;
-    this.data.nodes = [];
-    for (_i = 0, _len = full_data.length; _i < _len; _i++) {
-      node = full_data[_i];
-      if (node.id !== id) {
-        this.data.nodes.push(node);
-      }
-    }
+    var node_index;
+    node_index = '';
+    this.data.nodes = this.data.nodes.filter(function(node) {
+      return node.id !== id;
+    });
     return redraw();
   };
 }).call(this);
