@@ -95,7 +95,6 @@
       },
       render: function() {
         var force, link, node;
-        window.graph;
         force = d3.layout.force().charge(-120).linkDistance(30).nodes(window.allProgrammes.models).links(this.data.links).size([window.graph.w, window.graph.h]).start();
         link = this.vis.selectAll("line.link").data(this.data.links).enter().append("svg:line").attr("class", "link").style("stroke-width", function(d) {
           return Math.sqrt(d.value);
@@ -113,7 +112,7 @@
         }).enter().append("svg:g").attr("class", "node").call(force.drag);
         node.append("svg:circle").attr("r", 5).style("fill", "#234B6F").attr("class", "circle").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
         node.append("svg:text").attr("class", "node_text").attr("dx", 12).attr("dy", ".35em").text(function(d) {
-          return d.name;
+          return d.get('name');
         });
         this.vis.selectAll("g.node").data(window.allProgrammes.models, function(d) {
           return d.cid;

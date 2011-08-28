@@ -115,8 +115,6 @@ $(document).ready(() ->
       @render()
     ,
     render: () ->
-      window.graph
-
       force = d3.layout.force()
         .charge(-120)
         .linkDistance(30)
@@ -158,7 +156,7 @@ $(document).ready(() ->
           .attr("class", "node_text")
           .attr("dx", 12)
           .attr("dy", ".35em")
-          .text((d) -> d.name)
+          .text((d) -> d.get('name'))
       
       #Remove nodes
       @vis.selectAll("g.node").data(window.allProgrammes.models, (d) -> d.cid).exit().remove()
