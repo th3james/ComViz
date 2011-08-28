@@ -15,4 +15,8 @@ html
       ul.programmes
     script(type='text/template',)#programme-template
       .programme-name <%= name %>
+    script(type='application/javascript')
+      | jQuery(function() {
+      |   window.centreProgrammes.fetch();
+      | })
   body!= body

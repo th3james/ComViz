@@ -29,6 +29,7 @@
       }
     });
     window.CentreProgrammeView = ProgrammeView.extend({});
+    window.centreProgrammes = new Programmes();
     window.CentreView = Backbone.View.extend({
       tagName: 'section',
       className: 'centreview',
@@ -144,6 +145,28 @@
           });
         });
       }
+    });
+    window.BackboneComviz = Backbone.Router.extend({
+      routes: {
+        '': 'home'
+      },
+      initialize: function() {
+        return this.centreView = new CentreView({
+          collection: window.centreProgrammes
+        });
+      },
+      home: function() {
+        var $container;
+        $container = $('#container');
+        $container.empty();
+        return $container.append(this.centreView.render().el);
+      }
+    });
+    $(function() {
+      window.App = new window.BackboneComviz();
+      return Backbone.history.start({
+        pushState: true
+      });
     });
     return window.graphView = new window.GraphView;
   });

@@ -37,6 +37,8 @@ $(document).ready(() ->
   window.CentreProgrammeView = ProgrammeView.extend({
   })
 
+  window.centreProgrammes = new Programmes()
+
   #Centre wide view of all the programmes
   window.CentreView  = Backbone.View.extend({
     tagName: 'section',
@@ -182,6 +184,27 @@ $(document).ready(() ->
         node.attr("transform", (d) -> "translate(#{d.x},#{d.y})")
       )
   })
+
+  #Routers
+  window.BackboneComviz = Backbone.Router.extend({
+    routes: {
+      '': 'home'
+    },
+    initialize: () ->
+      @centreView = new CentreView({
+        collection: window.centreProgrammes
+      })
+    ,
+    home: () ->
+      $container = $('#container')
+      $container.empty()
+      $container.append(@centreView.render().el)
+  })
+
+  $(() ->
+    window.App = new window.BackboneComviz()
+    Backbone.history.start({pushState: true})
+  )
 
   window.graphView = new window.GraphView
 )
