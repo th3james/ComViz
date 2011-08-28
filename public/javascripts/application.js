@@ -19,12 +19,14 @@
       initialize: function() {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
+        this.id = this.model.cid;
         return this.template = _.template($('#programme-template').html());
       },
       render: function() {
         var renderedContent;
         renderedContent = this.template(this.model);
         $(this.el).html(renderedContent);
+        $(this.el).attr('id', this.id);
         return this;
       }
     });

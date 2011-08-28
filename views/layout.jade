@@ -15,7 +15,7 @@ html
       ul.programmes
     script(type='text/template',)#programme-template
       | <%= get('name') %>
-      - var delete_link = "<a href='#' id='<%= cid %>' class='delete_programme'>delete</a>"
+      - var delete_link = "<a href='#' class='delete_programme'>delete</a>"
       | !{delete_link}
     script(type='application/javascript')
       | jQuery(function() {

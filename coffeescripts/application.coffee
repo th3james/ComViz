@@ -24,12 +24,14 @@ $(document).ready(() ->
     initialize: () ->
       _.bindAll(this, 'render')
       @model.bind('change', @render)
+      @id = @model.cid
 
       @template = _.template($('#programme-template').html())
     ,
     render: () ->
       renderedContent = @template(this.model)
       $(@el).html(renderedContent)
+      $(@el).attr('id', @id)
       return this
   })
 
