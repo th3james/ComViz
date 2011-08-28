@@ -16,8 +16,21 @@ $(document).ready(() ->
     initialize: (models, options) ->
   })
 
-  #Application view
-  AppView = Backbone.View.extend({
+  #Programme view
+  window.ProgrammeView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'programme',
+    initialize: () ->
+      @template = _.template($('#programme-template').html())
+    ,
+    render: () ->
+      renderedContent = @template(this.model.toJSON())
+      $(@el).html(renderedContent)
+      return this
+  })
+
+  #Graph view
+  window.GraphView = Backbone.View.extend({
     el: $("body"),
     initialize: () ->
       #Create a programme collection when the view is initialized, with a reference to this
@@ -64,6 +77,10 @@ $(document).ready(() ->
     addProgramme: (model) ->
       #The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='#{model.cid}'>#{model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
+
+      #Create a programme view
+      programmeView = new window.ProgrammeView({model: model})
+      $('#container').append(programmeView.render().el)
 
       #Add the node to the graph
       @data.nodes.push({name:model.get('name'), id: model.cid})
@@ -133,6 +150,6 @@ $(document).ready(() ->
       )
   })
 
-  window.appview = new AppView
+  window.graphView = new window.GraphView
 )
 

@@ -1,6 +1,6 @@
 (function() {
   $(document).ready(function() {
-    var AppView, Programme, Programmes;
+    var Programme, Programmes;
     Programme = Backbone.Model.extend({
       name: null,
       initialize: function(options) {
@@ -13,7 +13,20 @@
     Programmes = Backbone.Collection.extend({
       initialize: function(models, options) {}
     });
-    AppView = Backbone.View.extend({
+    window.ProgrammeView = Backbone.View.extend({
+      tagName: 'li',
+      className: 'programme',
+      initialize: function() {
+        return this.template = _.template($('#programme-template').html());
+      },
+      render: function() {
+        var renderedContent;
+        renderedContent = this.template(this.model.toJSON());
+        $(this.el).html(renderedContent);
+        return this;
+      }
+    });
+    window.GraphView = Backbone.View.extend({
       el: $("body"),
       initialize: function() {
         this.programmes = new Programmes(null, {
@@ -54,7 +67,12 @@
         return this.redrawGraph();
       },
       addProgramme: function(model) {
+        var programmeView;
         $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
+        programmeView = new window.ProgrammeView({
+          model: model
+        });
+        $('#container').append(programmeView.render().el);
         this.data.nodes.push({
           name: model.get('name'),
           id: model.cid
@@ -103,6 +121,6 @@
         });
       }
     });
-    return window.appview = new AppView;
+    return window.graphView = new window.GraphView;
   });
 }).call(this);
