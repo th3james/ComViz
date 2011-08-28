@@ -42,6 +42,24 @@
         this.collection.bind('add', this.render);
         return this.collection.bind('remove', this.render);
       },
+      events: {
+        "click button#add_programme": "programmeNamePrompt",
+        "click a.delete_programme": "deleteProgramme"
+      },
+      programmeNamePrompt: function() {
+        var programme_model, programme_name;
+        programme_name = prompt("Programme name?");
+        programme_model = new Programme({
+          name: programme_name
+        });
+        return window.allProgrammes.add(programme_model);
+      },
+      deleteProgramme: function(e) {
+        var f, li;
+        li = $(e.currentTarget).parent('li');
+        f = window.allProgrammes.getByCid(li.attr('id'));
+        return window.allProgrammes.remove(f);
+      },
       render: function() {
         var $programmes, collection;
         collection = this.collection;
@@ -74,26 +92,6 @@
         this.collection.bind('reset', this.render);
         this.collection.bind('add', this.render);
         return this.collection.bind('remove', this.render);
-      },
-      events: {
-        "click #add_programme": "programmeNamePrompt",
-        "click a.delete_programme": "deleteProgramme"
-      },
-      programmeNamePrompt: function() {
-        var programme_model, programme_name;
-        programme_name = prompt("Programme name?");
-        programme_model = new Programme({
-          name: programme_name
-        });
-        $("#programme_list").append("<li id='" + programme_model.cid + "'>" + (programme_model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
-        return window.allProgrammes.add(programme_model);
-      },
-      deleteProgramme: function(e) {
-        var f, li;
-        li = $(e.currentTarget).parent('li');
-        f = window.allProgrammes.getByCid(li.attr('id'));
-        window.allProgrammes.remove(f);
-        return this.render();
       },
       render: function() {
         var force, link, node;

@@ -53,6 +53,22 @@ $(document).ready(() ->
       @collection.bind('add', @render)
       @collection.bind('remove', @render)
     ,
+    events: {
+      "click button#add_programme":  "programmeNamePrompt",
+      "click a.delete_programme":  "deleteProgramme"
+    },
+    programmeNamePrompt: () ->
+      programme_name = prompt("Programme name?")
+      programme_model = new Programme({ name: programme_name })
+
+      #Add to the programme collection
+      window.allProgrammes.add( programme_model )
+    ,
+    deleteProgramme: (e) ->
+      li = $(e.currentTarget).parent('li')
+      f = window.allProgrammes.getByCid(li.attr('id'))
+      window.allProgrammes.remove(f)
+    ,
     render: () ->
       collection = @collection
 
@@ -93,28 +109,6 @@ $(document).ready(() ->
       @collection.bind('reset', @render)
       @collection.bind('add', @render)
       @collection.bind('remove', @render)
-    ,
-    events: {
-      "click #add_programme":  "programmeNamePrompt",
-      "click a.delete_programme":  "deleteProgramme"
-    },
-    programmeNamePrompt: () ->
-      programme_name = prompt("Programme name?")
-      programme_model = new Programme({ name: programme_name })
-      #Add a new programme model to our programmes collection
-
-      #Create the old programme list LI
-      $("#programme_list").append("<li id='#{programme_model.cid}'>#{programme_model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
-
-      #Add to the programme list
-      window.allProgrammes.add( programme_model )
-    ,
-    deleteProgramme: (e) ->
-      li = $(e.currentTarget).parent('li')
-      f = window.allProgrammes.getByCid(li.attr('id'))
-      window.allProgrammes.remove(f)
-
-      @render()
     ,
     render: () ->
       force = d3.layout.force()
