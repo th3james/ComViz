@@ -1,6 +1,6 @@
 $(document).ready(() ->
   #Programme model
-  Programme = Backbone.Model.extend({
+  window.Programme = Backbone.Model.extend({
     name: null,
     initialize:(options) ->
       #Bind the remove event to the destroy and delete the html element
@@ -12,8 +12,9 @@ $(document).ready(() ->
   })
 
   #Programmes collection
-  Programmes = Backbone.Collection.extend({
-    initialize: (models, options) ->
+  window.Programmes = Backbone.Collection.extend({
+    model: Programme,
+    url: '/programmes.json'
   })
 
   #Programme view
@@ -21,11 +22,43 @@ $(document).ready(() ->
     tagName: 'li',
     className: 'programme',
     initialize: () ->
+      _.bindAll(this, 'render')
+      @model.bind('change', @render)
+
       @template = _.template($('#programme-template').html())
     ,
     render: () ->
       renderedContent = @template(this.model.toJSON())
       $(@el).html(renderedContent)
+      return this
+  })
+
+  #Extended view used by the CentreView
+  window.CentreProgrammeView = ProgrammeView.extend({
+  })
+
+  #Centre wide view of all the programmes
+  window.CentreView  = Backbone.View.extend({
+    tagName: 'section',
+    className: 'centreview',
+
+    initialize: () ->
+      _.bindAll(this, 'render')
+      @template = _.template($('#centre-template').html())
+      @collection.bind('reset', @render)
+    ,
+    render: () ->
+      collection = @collection
+
+      $(this.el).html(@template({}))
+      $programmes = this.$('.programmes')
+      collection.each((programme) ->
+        view = new CentreProgrammeView({
+          model: programme,
+          collection: collection
+        })
+        $programmes.append(view.render().el)
+      )
       return this
   })
 
@@ -83,7 +116,7 @@ $(document).ready(() ->
       $('#container').append(programmeView.render().el)
 
       #Add the node to the graph
-      @data.nodes.push({name:model.get('name'), id: model.cid})
+      @data.nodes.push(model)
       @redrawGraph()
     ,
     redrawGraph: () ->

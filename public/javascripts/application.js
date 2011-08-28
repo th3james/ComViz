@@ -1,7 +1,6 @@
 (function() {
   $(document).ready(function() {
-    var Programme, Programmes;
-    Programme = Backbone.Model.extend({
+    window.Programme = Backbone.Model.extend({
       name: null,
       initialize: function(options) {
         return this.bind("remove", function() {
@@ -10,19 +9,47 @@
         });
       }
     });
-    Programmes = Backbone.Collection.extend({
-      initialize: function(models, options) {}
+    window.Programmes = Backbone.Collection.extend({
+      model: Programme,
+      url: '/programmes.json'
     });
     window.ProgrammeView = Backbone.View.extend({
       tagName: 'li',
       className: 'programme',
       initialize: function() {
+        _.bindAll(this, 'render');
+        this.model.bind('change', this.render);
         return this.template = _.template($('#programme-template').html());
       },
       render: function() {
         var renderedContent;
         renderedContent = this.template(this.model.toJSON());
         $(this.el).html(renderedContent);
+        return this;
+      }
+    });
+    window.CentreProgrammeView = ProgrammeView.extend({});
+    window.CentreView = Backbone.View.extend({
+      tagName: 'section',
+      className: 'centreview',
+      initialize: function() {
+        _.bindAll(this, 'render');
+        this.template = _.template($('#centre-template').html());
+        return this.collection.bind('reset', this.render);
+      },
+      render: function() {
+        var $programmes, collection;
+        collection = this.collection;
+        $(this.el).html(this.template({}));
+        $programmes = this.$('.programmes');
+        collection.each(function(programme) {
+          var view;
+          view = new CentreProgrammeView({
+            model: programme,
+            collection: collection
+          });
+          return $programmes.append(view.render().el);
+        });
         return this;
       }
     });
@@ -73,10 +100,7 @@
           model: model
         });
         $('#container').append(programmeView.render().el);
-        this.data.nodes.push({
-          name: model.get('name'),
-          id: model.cid
-        });
+        this.data.nodes.push(model);
         return this.redrawGraph();
       },
       redrawGraph: function() {
