@@ -59,6 +59,7 @@
     window.GraphView = Backbone.View.extend({
       el: $("body"),
       initialize: function() {
+        _.bindAll(this, 'render');
         window.graph = {};
         window.graph.w = 960;
         window.graph.h = 500;
@@ -68,7 +69,9 @@
           nodes: [],
           links: []
         };
-        return this.render();
+        this.collection.bind('reset', this.render);
+        this.collection.bind('add', this.render);
+        return this.collection.bind('remove', this.render);
       },
       events: {
         "click #add_programme": "programmeNamePrompt",
@@ -80,28 +83,20 @@
         programme_model = new Programme({
           name: programme_name
         });
-        window.allProgrammes.add(programme_model);
-        return this.addProgramme(programme_model);
+        $("#programme_list").append("<li id='" + programme_model.cid + "'>" + (programme_model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
+        return window.allProgrammes.add(programme_model);
       },
       deleteProgramme: function(e) {
         var f, li;
         li = $(e.currentTarget).parent('li');
         f = window.allProgrammes.getByCid(li.attr('id'));
         window.allProgrammes.remove(f);
-        this.data.nodes = this.data.nodes.filter(function(node) {
-          return node.id !== f.cid;
-        });
-        return this.render();
-      },
-      addProgramme: function(model) {
-        $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
-        this.data.nodes.push(model);
         return this.render();
       },
       render: function() {
         var force, link, node;
         window.graph;
-        force = d3.layout.force().charge(-120).linkDistance(30).nodes(this.data.nodes).links(this.data.links).size([window.graph.w, window.graph.h]).start();
+        force = d3.layout.force().charge(-120).linkDistance(30).nodes(window.allProgrammes.models).links(this.data.links).size([window.graph.w, window.graph.h]).start();
         link = this.vis.selectAll("line.link").data(this.data.links).enter().append("svg:line").attr("class", "link").style("stroke-width", function(d) {
           return Math.sqrt(d.value);
         }).attr("x1", function(d) {
@@ -113,15 +108,15 @@
         }).attr("y2", function(d) {
           return d.target.y;
         });
-        node = this.vis.selectAll("g.node").data(this.data.nodes, function(d) {
-          return d.id;
+        node = this.vis.selectAll("g.node").data(window.allProgrammes.models, function(d) {
+          return d.cid;
         }).enter().append("svg:g").attr("class", "node").call(force.drag);
         node.append("svg:circle").attr("r", 5).style("fill", "#234B6F").attr("class", "circle").attr("x", "-8px").attr("y", "-8px").attr("width", "16px").attr("height", "16px");
         node.append("svg:text").attr("class", "node_text").attr("dx", 12).attr("dy", ".35em").text(function(d) {
           return d.name;
         });
-        this.vis.selectAll("g.node").data(this.data.nodes, function(d) {
-          return d.id;
+        this.vis.selectAll("g.node").data(window.allProgrammes.models, function(d) {
+          return d.cid;
         }).exit().remove();
         this.vis.style("opacity", 1e-6).transition().duration(1000).style("opacity", 1);
         return force.on("tick", function() {
@@ -146,7 +141,10 @@
         'blank': 'blank'
       },
       initialize: function() {
-        return this.panelView = new PanelView({
+        this.panelView = new PanelView({
+          collection: window.allProgrammes
+        });
+        return this.graphView = new GraphView({
           collection: window.allProgrammes
         });
       },
@@ -163,10 +161,9 @@
         return $container.append('blanked');
       }
     });
-    $(function() {
+    return $(function() {
       window.App = new window.BackboneComviz();
       return Backbone.history.start();
     });
-    return window.graphView = new window.GraphView;
   });
 }).call(this);

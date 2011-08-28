@@ -70,6 +70,7 @@ $(document).ready(() ->
   window.GraphView = Backbone.View.extend({
     el: $("body"),
     initialize: () ->
+      _.bindAll(this, 'render')
 
       #Create our graph
       window.graph = {}
@@ -87,7 +88,9 @@ $(document).ready(() ->
         links: []
       }
 
-      @render()
+      @collection.bind('reset', @render)
+      @collection.bind('add', @render)
+      @collection.bind('remove', @render)
     ,
     events: {
       "click #add_programme":  "programmeNamePrompt",
@@ -97,24 +100,18 @@ $(document).ready(() ->
       programme_name = prompt("Programme name?")
       programme_model = new Programme({ name: programme_name })
       #Add a new programme model to our programmes collection
+
+      #Create the old programme list LI
+      $("#programme_list").append("<li id='#{programme_model.cid}'>#{programme_model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
+
+      #Add to the programme list
       window.allProgrammes.add( programme_model )
-      @addProgramme(programme_model)
     ,
     deleteProgramme: (e) ->
       li = $(e.currentTarget).parent('li')
       f = window.allProgrammes.getByCid(li.attr('id'))
       window.allProgrammes.remove(f)
-      @data.nodes = @data.nodes.filter( (node) ->
-        node.id != f.cid
-      )
-      @render()
-    ,
-    addProgramme: (model) ->
-      #The parameter passed is a reference to the model that was added
-      $("#programme_list").append("<li id='#{model.cid}'>#{model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
 
-      #Add the node to the graph
-      @data.nodes.push(model)
       @render()
     ,
     render: () ->
@@ -123,7 +120,7 @@ $(document).ready(() ->
       force = d3.layout.force()
         .charge(-120)
         .linkDistance(30)
-        .nodes(@data.nodes)
+        .nodes(window.allProgrammes.models)
         .links(@data.links)
         .size([window.graph.w, window.graph.h])
         .start()
@@ -141,7 +138,7 @@ $(document).ready(() ->
       #NODE DRAWING
       #first we create svg:g elements as the container
       node = @vis.selectAll("g.node")
-          .data(@data.nodes, (d) -> d.id)
+          .data(window.allProgrammes.models, (d) -> d.cid)
         .enter().append("svg:g")
           .attr("class", "node")
           .call(force.drag)
@@ -164,7 +161,7 @@ $(document).ready(() ->
           .text((d) -> d.name)
       
       #Remove nodes
-      @vis.selectAll("g.node").data(@data.nodes, (d) -> d.id).exit().remove()
+      @vis.selectAll("g.node").data(window.allProgrammes.models, (d) -> d.cid).exit().remove()
 
       @vis.style("opacity", 1e-6)
         .transition()
@@ -189,7 +186,14 @@ $(document).ready(() ->
     },
     initialize: () ->
       #Create the views used by all pages
+
+      #Text panel view
       @panelView = new PanelView({
+        collection: window.allProgrammes
+      })
+
+      #d3 viz view
+      @graphView = new GraphView({
         collection: window.allProgrammes
       })
     ,
@@ -209,6 +213,5 @@ $(document).ready(() ->
     Backbone.history.start()
   )
 
-  window.graphView = new window.GraphView
 )
 
