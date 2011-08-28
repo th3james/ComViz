@@ -14,7 +14,9 @@ html
       h1 All Programmes
       ul.programmes
     script(type='text/template',)#programme-template
-      .programme-name <%= name %>
+      | <%= get('name') %>
+      - var delete_link = "<a href='#' id='<%= cid %>' class='delete_programme'>delete</a>"
+      | !{delete_link}
     script(type='application/javascript')
       | jQuery(function() {
       |   window.allProgrammes.fetch();

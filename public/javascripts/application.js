@@ -23,7 +23,7 @@
       },
       render: function() {
         var renderedContent;
-        renderedContent = this.template(this.model.toJSON());
+        renderedContent = this.template(this.model);
         $(this.el).html(renderedContent);
         return this;
       }

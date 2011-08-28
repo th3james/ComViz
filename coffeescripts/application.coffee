@@ -28,7 +28,7 @@ $(document).ready(() ->
       @template = _.template($('#programme-template').html())
     ,
     render: () ->
-      renderedContent = @template(this.model.toJSON())
+      renderedContent = @template(this.model)
       $(@el).html(renderedContent)
       return this
   })
