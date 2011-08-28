@@ -17,7 +17,7 @@ $(document).ready(() ->
     url: '/programmes.json'
   })
 
-  #Programme view
+  #Simple Programme view
   window.ProgrammeView = Backbone.View.extend({
     tagName: 'li',
     className: 'programme',
@@ -33,21 +33,23 @@ $(document).ready(() ->
       return this
   })
 
-  #Extended view used by the CentreView
-  window.CentreProgrammeView = ProgrammeView.extend({
+  #Extended view used by the PanelView
+  window.TextProgrammeView = ProgrammeView.extend({
   })
 
-  window.centreProgrammes = new Programmes()
+  window.allProgrammes = new Programmes()
 
-  #Centre wide view of all the programmes
-  window.CentreView  = Backbone.View.extend({
+  #Text panel of all programmes
+  window.PanelView  = Backbone.View.extend({
     tagName: 'section',
-    className: 'centreview',
+    className: 'programme-panel',
 
     initialize: () ->
       _.bindAll(this, 'render')
-      @template = _.template($('#centre-template').html())
+      @template = _.template($('#panel-template').html())
       @collection.bind('reset', @render)
+      @collection.bind('add', @render)
+      @collection.bind('remove', @render)
     ,
     render: () ->
       collection = @collection
@@ -55,7 +57,7 @@ $(document).ready(() ->
       $(this.el).html(@template({}))
       $programmes = this.$('.programmes')
       collection.each((programme) ->
-        view = new CentreProgrammeView({
+        view = new TextProgrammeView({
           model: programme,
           collection: collection
         })
@@ -68,26 +70,24 @@ $(document).ready(() ->
   window.GraphView = Backbone.View.extend({
     el: $("body"),
     initialize: () ->
-      #Create a programme collection when the view is initialized, with a reference to this
-      @programmes = new Programmes( null, { view: this })
 
       #Create our graph
-      @graph = {}
-      @graph.w = 960
-      @graph.h = 500
-      @graph.fill = d3.scale.category20()
+      window.graph = {}
+      window.graph.w = 960
+      window.graph.h = 500
+      window.graph.fill = d3.scale.category20()
 
       @vis = d3.select("#chart")
         .append("svg:svg")
-          .attr("width", @graph.w)
-          .attr("height", @graph.h)
-      
+          .attr("width", window.graph.w)
+          .attr("height", window.graph.h)
+
       @data = {
         nodes: [],
         links: []
       }
 
-      @redrawGraph()
+      @render()
     ,
     events: {
       "click #add_programme":  "programmeNamePrompt",
@@ -97,39 +97,35 @@ $(document).ready(() ->
       programme_name = prompt("Programme name?")
       programme_model = new Programme({ name: programme_name })
       #Add a new programme model to our programmes collection
-      @programmes.add( programme_model )
+      window.allProgrammes.add( programme_model )
       @addProgramme(programme_model)
     ,
     deleteProgramme: (e) ->
       li = $(e.currentTarget).parent('li')
-      f = @programmes.getByCid(li.attr('id'))
-      this.programmes.remove(f)
+      f = window.allProgrammes.getByCid(li.attr('id'))
+      window.allProgrammes.remove(f)
       @data.nodes = @data.nodes.filter( (node) ->
         node.id != f.cid
       )
-      @redrawGraph()
+      @render()
     ,
     addProgramme: (model) ->
       #The parameter passed is a reference to the model that was added
       $("#programme_list").append("<li id='#{model.cid}'>#{model.get('name')} <a href='#' class='delete_programme'>delete</a></li>")
 
-      #Create a programme view
-      programmeView = new window.ProgrammeView({model: model})
-      $('#container').append(programmeView.render().el)
-
       #Add the node to the graph
       @data.nodes.push(model)
-      @redrawGraph()
+      @render()
     ,
-    redrawGraph: () ->
-      graph = @graph
+    render: () ->
+      window.graph
 
       force = d3.layout.force()
         .charge(-120)
         .linkDistance(30)
         .nodes(@data.nodes)
         .links(@data.links)
-        .size([@graph.w, @graph.h])
+        .size([window.graph.w, window.graph.h])
         .start()
 
       link = @vis.selectAll("line.link")
@@ -193,14 +189,14 @@ $(document).ready(() ->
     },
     initialize: () ->
       #Create the views used by all pages
-      @centreView = new CentreView({
-        collection: window.centreProgrammes
+      @panelView = new PanelView({
+        collection: window.allProgrammes
       })
     ,
     home: () ->
       $container = $('#container')
       $container.empty()
-      $container.append(@centreView.render().el)
+      $container.append(@panelView.render().el)
     ,
     blank: () ->
       $container = $('#container')

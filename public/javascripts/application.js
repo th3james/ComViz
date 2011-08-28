@@ -28,15 +28,17 @@
         return this;
       }
     });
-    window.CentreProgrammeView = ProgrammeView.extend({});
-    window.centreProgrammes = new Programmes();
-    window.CentreView = Backbone.View.extend({
+    window.TextProgrammeView = ProgrammeView.extend({});
+    window.allProgrammes = new Programmes();
+    window.PanelView = Backbone.View.extend({
       tagName: 'section',
-      className: 'centreview',
+      className: 'programme-panel',
       initialize: function() {
         _.bindAll(this, 'render');
-        this.template = _.template($('#centre-template').html());
-        return this.collection.bind('reset', this.render);
+        this.template = _.template($('#panel-template').html());
+        this.collection.bind('reset', this.render);
+        this.collection.bind('add', this.render);
+        return this.collection.bind('remove', this.render);
       },
       render: function() {
         var $programmes, collection;
@@ -45,7 +47,7 @@
         $programmes = this.$('.programmes');
         collection.each(function(programme) {
           var view;
-          view = new CentreProgrammeView({
+          view = new TextProgrammeView({
             model: programme,
             collection: collection
           });
@@ -57,19 +59,16 @@
     window.GraphView = Backbone.View.extend({
       el: $("body"),
       initialize: function() {
-        this.programmes = new Programmes(null, {
-          view: this
-        });
-        this.graph = {};
-        this.graph.w = 960;
-        this.graph.h = 500;
-        this.graph.fill = d3.scale.category20();
-        this.vis = d3.select("#chart").append("svg:svg").attr("width", this.graph.w).attr("height", this.graph.h);
+        window.graph = {};
+        window.graph.w = 960;
+        window.graph.h = 500;
+        window.graph.fill = d3.scale.category20();
+        this.vis = d3.select("#chart").append("svg:svg").attr("width", window.graph.w).attr("height", window.graph.h);
         this.data = {
           nodes: [],
           links: []
         };
-        return this.redrawGraph();
+        return this.render();
       },
       events: {
         "click #add_programme": "programmeNamePrompt",
@@ -81,33 +80,28 @@
         programme_model = new Programme({
           name: programme_name
         });
-        this.programmes.add(programme_model);
+        window.allProgrammes.add(programme_model);
         return this.addProgramme(programme_model);
       },
       deleteProgramme: function(e) {
         var f, li;
         li = $(e.currentTarget).parent('li');
-        f = this.programmes.getByCid(li.attr('id'));
-        this.programmes.remove(f);
+        f = window.allProgrammes.getByCid(li.attr('id'));
+        window.allProgrammes.remove(f);
         this.data.nodes = this.data.nodes.filter(function(node) {
           return node.id !== f.cid;
         });
-        return this.redrawGraph();
+        return this.render();
       },
       addProgramme: function(model) {
-        var programmeView;
         $("#programme_list").append("<li id='" + model.cid + "'>" + (model.get('name')) + " <a href='#' class='delete_programme'>delete</a></li>");
-        programmeView = new window.ProgrammeView({
-          model: model
-        });
-        $('#container').append(programmeView.render().el);
         this.data.nodes.push(model);
-        return this.redrawGraph();
+        return this.render();
       },
-      redrawGraph: function() {
-        var force, graph, link, node;
-        graph = this.graph;
-        force = d3.layout.force().charge(-120).linkDistance(30).nodes(this.data.nodes).links(this.data.links).size([this.graph.w, this.graph.h]).start();
+      render: function() {
+        var force, link, node;
+        window.graph;
+        force = d3.layout.force().charge(-120).linkDistance(30).nodes(this.data.nodes).links(this.data.links).size([window.graph.w, window.graph.h]).start();
         link = this.vis.selectAll("line.link").data(this.data.links).enter().append("svg:line").attr("class", "link").style("stroke-width", function(d) {
           return Math.sqrt(d.value);
         }).attr("x1", function(d) {
@@ -152,15 +146,15 @@
         'blank': 'blank'
       },
       initialize: function() {
-        return this.centreView = new CentreView({
-          collection: window.centreProgrammes
+        return this.panelView = new PanelView({
+          collection: window.allProgrammes
         });
       },
       home: function() {
         var $container;
         $container = $('#container');
         $container.empty();
-        return $container.append(this.centreView.render().el);
+        return $container.append(this.panelView.render().el);
       },
       blank: function() {
         var $container;
