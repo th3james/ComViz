@@ -188,9 +188,11 @@ $(document).ready(() ->
   #Routers
   window.BackboneComviz = Backbone.Router.extend({
     routes: {
-      '': 'home'
+      '': 'home',
+      'blank': 'blank'
     },
     initialize: () ->
+      #Create the views used by all pages
       @centreView = new CentreView({
         collection: window.centreProgrammes
       })
@@ -199,11 +201,16 @@ $(document).ready(() ->
       $container = $('#container')
       $container.empty()
       $container.append(@centreView.render().el)
+    ,
+    blank: () ->
+      $container = $('#container')
+      $container.empty()
+      $container.append('blanked')
   })
 
   $(() ->
     window.App = new window.BackboneComviz()
-    Backbone.history.start({pushState: true})
+    Backbone.history.start()
   )
 
   window.graphView = new window.GraphView

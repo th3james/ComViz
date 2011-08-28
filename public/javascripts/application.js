@@ -148,7 +148,8 @@
     });
     window.BackboneComviz = Backbone.Router.extend({
       routes: {
-        '': 'home'
+        '': 'home',
+        'blank': 'blank'
       },
       initialize: function() {
         return this.centreView = new CentreView({
@@ -160,13 +161,17 @@
         $container = $('#container');
         $container.empty();
         return $container.append(this.centreView.render().el);
+      },
+      blank: function() {
+        var $container;
+        $container = $('#container');
+        $container.empty();
+        return $container.append('blanked');
       }
     });
     $(function() {
       window.App = new window.BackboneComviz();
-      return Backbone.history.start({
-        pushState: true
-      });
+      return Backbone.history.start();
     });
     return window.graphView = new window.GraphView;
   });
