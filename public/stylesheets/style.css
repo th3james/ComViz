@@ -35,7 +35,7 @@ div#pane-container {
   height: 500px;
   padding:10px;
 
-  border:1px solid #AAA;
+  border:2px solid #555;
   border-right: 0px;
 
   -moz-border-radius-topleft: 7px;
@@ -93,8 +93,66 @@ ul#programme-list a.delete_programme {
 
 svg {
   padding:10px;
-  border:1px solid #CCC;
-  background: #EEE;
+  border:1px solid #66A;
+  border-right: 0px;
+
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 7px;
+  -webkit-border-radius: 7px 0px 0px 7px;
+  border-radius: 7px 0px 0px 7px;
+
+  -webkit-box-shadow: 5px 5px 10px 0px #222;
+  -moz-box-shadow: 5px 5px 10px 0px #222;
+  box-shadow: 5px 5px 10px 0px #222;
+}
+
+div#pane-container h3 {
+  color:white;
+  text-shadow: hsl(243,10%,59%) 1px 1px;
+}
+
+ul#programme-list {
+  list-style: none;
+  margin-left: 2px;
+  margin-top: 15px;
+
+}
+
+ul#programme-list li {
+  border-top: 1px solid #999;
+  padding-top: 5px;
+  margin-bottom: 5px;
+
+  color:#EEE;
+}
+
+ul#programme-list li:last-child {
+  border-bottom: 1px solid #999;
+  padding-bottom:5px;
+}
+
+ul#programme-list div.programme-name {
+  width: 150px;
+  float:left;
+
+  margin-top:6px;
+
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+ul#programme-list a.delete_programme {
+  height:13px;
+  float:right;
+}
+
+svg {
+  padding:10px;
+  border:2px solid #555;
+  background: #FFF;
 
   -moz-border-radius-topleft: 0px;
   -moz-border-radius-topright: 7px;
@@ -107,7 +165,6 @@ svg {
   -moz-box-shadow: 5px 5px 10px 0px #222;
   box-shadow: 5px 5px 10px 0px #222;
 }
-
 
 canvas {
 }
