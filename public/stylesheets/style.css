@@ -21,20 +21,21 @@ a {
 
 div#main {
   border:1px solid #BBB;
-  width: 900px;
 }
 
 div#pane-container {
-  float:left;
-  background-color: #1D5991;
-  color: #EEE;
+  /*background-color: #1D5991;
+  color: #EEE; */
   height: 500px;
   padding:10px;
 }
 div#chart {
-  float:left;
   padding:10px;
   background-color: #EEE;
+}
+
+a.delete_programme {
+  float:right;
 }
 
 canvas {

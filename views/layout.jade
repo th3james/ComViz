@@ -2,6 +2,7 @@
 html
   head
     title= title
+    link(rel="stylesheet", href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js')
     script(type='text/javascript', src='http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js')
@@ -12,11 +13,12 @@ html
     script(type='text/javascript', src='/javascripts/application.js')
     script(type='text/template',)#panel-template
       h3 Programmes
-      button#add_programme Add Programme
-      ul.programmes
+      button#add_programme.btn.primary Add Programme
+      ul#programme-list
     script(type='text/template',)#programme-template
-      | <%= get('name') %>
-      - var delete_link = "<a href='#' class='delete_programme'>delete</a>"
+      span.programme-name
+        | <%= get('name') %>
+      - var delete_link = "<a href='#' class='delete_programme btn danger'>delete</a>"
       | !{delete_link}
     script(type='application/javascript')
       | jQuery(function() {

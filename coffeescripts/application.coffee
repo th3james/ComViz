@@ -20,7 +20,7 @@ $(document).ready(() ->
   #Simple Programme view
   window.ProgrammeView = Backbone.View.extend({
     tagName: 'li',
-    className: 'programme',
+    className: 'programme clearfix',
     initialize: () ->
       _.bindAll(this, 'render')
       @model.bind('change', @render)
@@ -73,7 +73,7 @@ $(document).ready(() ->
       collection = @collection
 
       $(this.el).html(@template({}))
-      $programmes = this.$('.programmes')
+      $programmes = this.$('#programme-list')
       collection.each((programme) ->
         view = new TextProgrammeView({
           model: programme,

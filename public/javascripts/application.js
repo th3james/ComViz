@@ -15,7 +15,7 @@
     });
     window.ProgrammeView = Backbone.View.extend({
       tagName: 'li',
-      className: 'programme',
+      className: 'programme clearfix',
       initialize: function() {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
@@ -64,7 +64,7 @@
         var $programmes, collection;
         collection = this.collection;
         $(this.el).html(this.template({}));
-        $programmes = this.$('.programmes');
+        $programmes = this.$('#programme-list');
         collection.each(function(programme) {
           var view;
           view = new TextProgrammeView({
