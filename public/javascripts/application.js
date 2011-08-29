@@ -81,7 +81,7 @@
       initialize: function() {
         _.bindAll(this, 'render');
         window.graph = {};
-        window.graph.w = 960;
+        window.graph.w = 600;
         window.graph.h = 500;
         window.graph.fill = d3.scale.category20();
         this.vis = d3.select("#chart").append("svg:svg").attr("width", window.graph.w).attr("height", window.graph.h);
@@ -149,13 +149,13 @@
       },
       home: function() {
         var $container;
-        $container = $('#container');
+        $container = $('#pane-container');
         $container.empty();
         return $container.append(this.panelView.render().el);
       },
       blank: function() {
         var $container;
-        $container = $('#container');
+        $container = $('#pane-container');
         $container.empty();
         return $container.append('blanked');
       }

@@ -92,7 +92,7 @@ $(document).ready(() ->
 
       #Create our graph
       window.graph = {}
-      window.graph.w = 960
+      window.graph.w = 600
       window.graph.h = 500
       window.graph.fill = d3.scale.category20()
 
@@ -192,12 +192,12 @@ $(document).ready(() ->
       })
     ,
     home: () ->
-      $container = $('#container')
+      $container = $('#pane-container')
       $container.empty()
       $container.append(@panelView.render().el)
     ,
     blank: () ->
-      $container = $('#container')
+      $container = $('#pane-container')
       $container.empty()
       $container.append('blanked')
   })

@@ -1,3 +1,15 @@
+/* new clearfix */
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+	}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,6 +17,24 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+div#main {
+  border:1px solid #BBB;
+  width: 900px;
+}
+
+div#pane-container {
+  float:left;
+  background-color: #1D5991;
+  color: #EEE;
+  height: 500px;
+  padding:10px;
+}
+div#chart {
+  float:left;
+  padding:10px;
+  background-color: #EEE;
 }
 
 canvas {
