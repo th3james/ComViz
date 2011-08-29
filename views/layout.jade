@@ -13,12 +13,12 @@ html
     script(type='text/javascript', src='/javascripts/application.js')
     script(type='text/template',)#panel-template
       h3 Programmes
-      button#add_programme.btn.primary Add Programme
+      button#add_programme.btn.small.primary + Add Programme
       ul#programme-list
     script(type='text/template',)#programme-template
-      span.programme-name
+      div.programme-name
         | <%= get('name') %>
-      - var delete_link = "<a href='#' class='delete_programme btn danger'>delete</a>"
+      - var delete_link = "<a href='#' class='delete_programme btn small danger'>Delete</a>"
       | !{delete_link}
     script(type='application/javascript')
       | jQuery(function() {

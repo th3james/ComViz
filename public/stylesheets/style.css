@@ -34,7 +34,35 @@ div#chart {
   background-color: #EEE;
 }
 
-a.delete_programme {
+ul#programme-list {
+  list-style: none;
+  margin-left: 2px;
+  margin-top: 15px;
+}
+
+ul#programme-list li {
+  border-top: 1px solid #DDD;
+  padding-top: 5px;
+  margin-bottom: 5px;
+}
+ul#programme-list li:last-child {
+  border-bottom: 1px solid #DDD;
+  padding-bottom:5px;
+}
+
+ul#programme-list div.programme-name {
+  width: 150px;
+  float:left;
+
+  margin-top:6px;
+
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+ul#programme-list a.delete_programme {
+  height:13px;
   float:right;
 }
 
