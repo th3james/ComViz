@@ -13,6 +13,12 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #F8F8F8 url('/images/ios-linen.png') 0 100% repeat;
+}
+
+h1 {
+  color:white;
+  text-shadow: hsl(243,10%,59%) 1px 1px;
 }
 
 a {
@@ -42,6 +48,7 @@ div#pane-container {
 
 div#pane-container h3 {
   color:white;
+  text-shadow: hsl(243,10%,59%) 1px 1px;
 }
 
 ul#programme-list {
@@ -83,6 +90,7 @@ ul#programme-list a.delete_programme {
 svg {
   padding:10px;
   border:1px solid #CCC;
+  background: #EEE;
 
   -moz-border-radius-topleft: 0px;
   -moz-border-radius-topright: 7px;
