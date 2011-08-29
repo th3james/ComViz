@@ -35,6 +35,9 @@ div#pane-container {
   height: 500px;
   padding:10px;
 
+  border:1px solid #AAA;
+  border-right: 0px;
+
   -moz-border-radius-topleft: 7px;
   -moz-border-radius-topright: 0px;
   -moz-border-radius-bottomright: 0px;
@@ -42,8 +45,9 @@ div#pane-container {
   -webkit-border-radius: 7px 0px 0px 7px;
   border-radius: 7px 0px 0px 7px;
 
-  border:1px solid #AAA;
-  border-right: 0px;
+  -webkit-box-shadow: 5px 5px 10px 0px #222;
+  -moz-box-shadow: 5px 5px 10px 0px #222;
+  box-shadow: 5px 5px 10px 0px #222;
 }
 
 div#pane-container h3 {
@@ -98,6 +102,10 @@ svg {
   -moz-border-radius-bottomleft: 0px;
   -webkit-border-radius: 0px 7px 7px 0px;
   border-radius: 0px 7px 7px 0px;
+
+  -webkit-box-shadow: 5px 5px 10px 0px #222;
+  -moz-box-shadow: 5px 5px 10px 0px #222;
+  box-shadow: 5px 5px 10px 0px #222;
 }
 
 
