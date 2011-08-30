@@ -35,7 +35,7 @@ div#pane-container {
   height: 500px;
   padding:10px;
 
-  border:2px solid #555;
+  border:2px solid #333;
   border-right: 0px;
 
   -moz-border-radius-topleft: 7px;
@@ -151,7 +151,7 @@ ul#programme-list a.delete_programme {
 
 svg {
   padding:10px;
-  border:2px solid #555;
+  border:2px solid #333;
   background: #FFF;
 
   -moz-border-radius-topleft: 0px;
